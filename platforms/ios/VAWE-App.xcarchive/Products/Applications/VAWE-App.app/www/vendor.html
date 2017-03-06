@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<style type="text/css">
+	body {
+		margin: 0;
+		padding: 0;
+	}
+	.ui-icon-csm-home:after {
+		background-image: url(img/Home%20Green.png);
+	}
+	.ui-btn-active {
+		background-color: #6EB02D!important;
+	}
+	.ui-nodisc-icon.ui-btn:after, .ui-nodisc-icon .ui-btn:after {
+		background-color: #ED248F!important;
+	}
+	.ui-input-search {
+		margin-left:10px!important;
+		margin-right:10px!important;
+	}
+	.facebook {
+		background-image:url(img/facebook-login-blue.png);
+	}
+	.google {
+		background-image:url(img/google-sign-in.png);
+	}
+	.ui-icon-myapp-settings {
+		background: url("img/apple-icon.png") 18px 18px no-repeat !important;
+	}
+	@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+		.ui-icon-myapp-settings {
+			background: url("img/apple-icon@2x.png") no-repeat rgba(0, 0, 0, 0.8) !important;
+			background-size: 18px 18px;
+		}
+		// more declarations here
+	}
+	.messageInputContainer {
+		width:75%!important;
+		
+	}
+	.clientMessage {
+		float:left;
+		background-color:#177AD0;
+		color:white;
+		width:200px!important;
+		height:inherit;
+		padding:15px;
+		left:10px;
+		margin-bottom:15px;
+		border-bottom-right-radius: 25px;
+		border-top-left-radius: 25px;
+		border-top-right-radius: 25px;
+	}
+	.vendorMessage {
+		float:right;
+		background-color:#9F9F9F;
+		color:white;
+		width:200px!important;
+		height:inherit;
+		padding:15px;
+		right:10px;
+		margin-bottom:15px;
+		border-bottom-left-radius: 25px;
+		border-top-left-radius: 25px;
+		border-top-right-radius: 25px;
+	}
+	.messageBox {
+		height:100%;
+		position:absolute;
+		top:100%!important;
+	}
+	.messageBody {
+		display:flex;
+		flex-direction: column-reverse;
+		min-height:100%;
+		overflow-y: auto!important;
+	}
+	.mySlides {
+		width:100%!important;
+	}
+</style>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.css" />
+<!-- Start WOWSlider.com HEAD section -->
+<link rel="stylesheet" type="text/css" href="engine1/style.css" />
+<script type="text/javascript" src="engine1/jquery.js"></script>
+<!-- End WOWSlider.com HEAD section -->
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
+</head>
+
+<body>
+<div id="page1" data-role="page">
+	<div data-role="header" data-position="fixed" align="center"><img src="img/VAWE-long-300x30-transparent.png" width="300" height="30" alt=""/></div>
+	<div data-role="content" style="margin:0; padding:0;">	
+	<!-- Start WOWSlider.com BODY section -->
+	<div id="wowslider-container1" style="width:100%; max-width: 100%; padding-bottom:10px;">
+	<div class="ws_images"><ul>
+			<li><img src="data1/images/catering_1.png" alt="" title="" id="wows1_0"/></li>
+			<li><img src="data1/images/rev._pamela_a._mann.png" alt="wowslider.com" title="" id="wows1_1"/></li>
+			<li><img src="data1/images/catering.png" alt="" title="" id="wows1_2"/></li>
+		</ul></div>
+	<div class="ws_shadow"></div>
+	</div>	
+	<script type="text/javascript" src="engine1/wowslider.js"></script>
+	<script type="text/javascript" src="engine1/script.js"></script>
+	<!-- End WOWSlider.com BODY section -->
+		<div style="padding-bottom:5px;">
+			<img src="img/Wedding in a Box.png" style="width:100%!important;">
+		</div>
+		<div style="padding-bottom:5px;">
+			<img src="img/Flutter My Shutter.png" style="width:100%!important;">
+		</div>
+		<div style="padding-bottom:5px;">
+			<img src="img/Brock's riverside.png" style="width:100%!important;">
+		</div>
+	</div>
+	<div data-role="footer" data-position="fixed">
+		<div data-role="navbar" class="ui-nodisc-icon">
+			<ul>
+				<li><a href="#" class="ui-icon-home ui-btn-icon-top ui-btn-active">Home</a></li>
+				<li><a href="#" class="ui-icon-calendar ui-btn-icon-top">Events</a></li>
+				<li class="vendorOption"><a href="#vendors" class="ui-icon-search ui-btn-icon-top">Vendors</a></li>
+				<li><a href="#map" class="ui-icon-location ui-btn-icon-top">Map</a></li>
+				<li><a href="#" onClick="loginCheck()" class="ui-icon-user ui-btn-icon-top">Profile</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+		<script>
+	/*
+	 * Google Maps documentation: http://code.google.com/apis/maps/documentation/javascript/basics.html
+	 * Geolocation documentation: http://dev.w3.org/geo/api/spec-source.html
+	 */
+		
+	var map;
+	window.user = null;
+	$( document ).on( "pageinit", "#map", function() {
+		var defaultLatLng = new google.maps.LatLng(34.0983425, -118.3267434);  // Default to Hollywood, CA when no geolocation support
+
+		if ( navigator.geolocation ) {
+			function success(pos) {
+				// Location found, show map with these coordinates
+				drawMap(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+			}
+
+			function fail(error) {
+				drawMap(defaultLatLng);  // Failed to find location, show default map
+			}
+
+			// Find the users current position.  Cache the location for 5 minutes, timeout after 6 seconds
+			navigator.geolocation.getCurrentPosition(success, fail, {maximumAge: 500000, enableHighAccuracy:true});
+		} else {
+			drawMap(defaultLatLng);  // No geolocation support, show default map
+		}
+		
+		var citymap = {
+			Birchwood: {
+			  center: {lat: 45.640301, lng: -91.577599},
+			  population: 442
+        	}
+      	}
+      
+
+		function drawMap(latlng) {
+			var myOptions = {
+				zoom: 10,
+				center: latlng,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+
+			var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+
+			// Add an overlay to the map of current lat/lng
+			
+			for (var city in citymap) {
+			  // Add the circle for this city to the map.
+			  var cityCircle = new google.maps.Circle({
+				strokeColor: '#6EB02D',
+				strokeOpacity: 1.0,
+				strokeWeight: 3,
+				fillColor: '#ED248F',
+				fillOpacity: 0.35,
+				map: map,
+				center: citymap[city].center,
+				radius: Math.sqrt(citymap[city].population) * 100
+			  });
+			}
+		
+			var contentString = '<div id="content">'+
+				'<div id="siteNotice">'+
+				'</div>'+
+				'<h1 id="firstHeading" class="firstHeading">My Event</h1>'+
+				'<div id="bodyContent">'+
+				'This is the location of my event party. ' +
+				'</div>'+
+				'</div>';
+			
+			var contentString2 = '<div id="content">'+
+				'<div id="siteNotice">'+
+				'</div>'+
+				'<h1 id="firstHeading" class="firstHeading">LA Wedding</h1>'+
+				'<div id="bodyContent">'+
+				'This is the location of my wedding. ' +
+				'</div>'+
+				'</div>';
+
+			var infowindow = new google.maps.InfoWindow({
+				content: contentString
+			});
+			
+			var infowindow2 = new google.maps.InfoWindow({
+				content: contentString2
+			})
+
+			marker = new google.maps.Marker({
+				map: map,
+				draggable: false,
+				animation: google.maps.Animation.DROP,
+				position: {lat: 45.640301, lng: -91.577599},
+				title: 'My Event'
+
+			});
+			
+			marker2 = new google.maps.Marker({
+				map: map,
+				draggable: false,
+				animation: google.maps.Animation.DROP,
+				position: {lat: 34.0522, lng: 118.2437},
+				title: 'LA Wedding'
+			})
+
+			marker.addListener('click', function() {
+				infowindow.open(map, marker);
+			});
+			
+			marker2.addListener('click', function() {
+				infoWindow2.open(map, marker2);
+			})
+		}
+	});
+	</script>
+<script type="text/javascript">
+   $(document).on("pagebeforeshow", function(event, ui) {
+	   window.location.href=window.location.href;
+   })
+	$(document).on("pageshow", "#message-vendor", function() {
+		if (window.user == null) {
+			$( ":mobile-pagecontainer" ).pagecontainer( "change", "#login-page", { transition: "slide" });
+		}
+		$.ajax({
+			type: "GET",
+			url: "http://www.weddingindustryinsider.com/www/loadmessages.php",
+			data: 'user='+window.user+'&vendor='+window.vendor,
+			cache: false,
+			success: function(data) 
+			{
+				document.getElementById("messageBox").innerHTML = data;
+
+			},
+			complete: function() {
+				var height = $("div.messageBody")[0].scrollHeight;
+				$.mobile.silentScroll(height);
+			}
+		});
+	})
+	var slideIndex = 0;
+	var login = "false";
+	$(document).on( "pageinit", "#vendors", function() {
+		var filter = 0;
+		 $.ajax({
+			type: "POST",
+			url: "http://www.weddingindustryinsider.com/www/vendorlist.php",
+			data: 'filter=' + filter,
+			cache: false,
+			success: function(data) 
+			{
+				document.getElementById("results").innerHTML = data;
+				$("#results").listview("refresh");
+			}
+		 });
+	})
+	function changePage(vendorID) {
+		$( ":mobile-pagecontainer" ).pagecontainer( "change", "#vendor-page", { transition: "slide" });
+		$.ajax({
+			type: "POST",
+			url: "http://www.weddingindustryinsider.com/www/vendorpull.php",
+			data: 'id=' + vendorID,
+			cache: false,
+			success: function(data) 
+			{
+				document.getElementById("vendor-data").innerHTML = data;
+				var e = document.getElementById("vendor-message");
+				e.setAttribute("name", vendorID);
+				window.vendor = vendorID;
+			}
+		 })
+	}
+	
+    </script>
+    	<script type="text/javascript">
+		function touchID() {
+			if (window.plugins) {
+				window.plugins.touchid.isAvailable(function() {
+					window.plugins.touchid.has("MyKey", function() {
+						alert("Touch ID avaialble and Password key available");
+					}, function() {
+						if (window.plugins) {
+							window.plugins.touchid.verify("MyKey", "My Message", function(password) {
+								alert("Touch " + password);
+							});
+						}
+					});
+				}, function(msg) {
+					alert("no Touch ID available");
+				});
+			}
+		}
+		function loginCheck() {
+			$.ajax({
+				url: "login.php",
+				cache: false,
+				success: function(data)
+				{
+					if (login == "false") {
+						$( ":mobile-pagecontainer" ).pagecontainer( "change", "#login-page", { transition: "slide" });
+					}
+					else {
+						$("#profile").panel();
+						$("#profile").panel("open").enhanceWithin();
+					}
+				}
+			});
+		}
+		$("#login-submit").click(function(){
+			$("#login-form").trigger("submit");
+		});
+		$("#login-form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				type: "POST",
+				url: "http://www.weddingindustryinsider.com/www/logincheck.php",
+				data: $("#login-form").serialize(),
+				cache: false,
+				success: function(data)
+				{
+					if (data == "1") {
+						window.login = "true";
+						window.user = $("#user").val();
+						$( ":mobile-pagecontainer" ).pagecontainer( "change", "#page1", { transition: "flip" });
+					}
+					else {
+						alert("Username or password Incorrect. Please try again.");
+					}
+				}
+			});
+		});
+		$("#vendor-login-submit").click(function(){
+			$("#vendor-login-form").trigger("submit");
+		});
+		$("#vendor-login-form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				type: "POST",
+				url: "http://www.weddingindustryinsider.com/www/vendorlogin.php",
+				data: $("#vendor-login-form").serialize(),
+				cache: false,
+				error: function(jqXHR, textStatus, data) {
+					alert(textStatus);
+				},
+				success: function(data)
+				{
+					var result = data.split(",");
+					if (result[0] == "YES") {
+						window.login = "true";
+						window.user = $("#vendor-user").val();
+						window.displayName = result[1];
+						window.vendorlogin = "true";
+						getVendorID();
+						window.location = "vendor.html";
+						
+					}
+					else if (result[0] == "NO") {
+						alert("Username is not listed as a vendor. Please check with account administrator.");
+					}
+					else if (result[0] == "FAIL") {
+						alert("Username or password incorrect. Please try again.");
+					}
+				}
+			});
+		});
+		function sendMessage() {
+			$.ajax({
+				type: "GET",
+				url: "http://www.weddingindustryinsider.com/www/sendmessage.php",
+				data: "user="+window.user+"&vendor="+window.vendor+"&message="+$("#messageToSend").val(),
+				cache: false,
+				success: function(data)
+				{
+					if (data = "Success") {
+						$("#messageBox").append("<div class='clientMessage'>"+$("#messageToSend").val()+"</div>");
+						var height = $("div.messageBody")[0].scrollHeight;
+						$.mobile.silentScroll(height)
+					}
+				}
+			});
+		}
+		function getVendorID() {
+			$.ajax({
+				type: "GET",
+				url: "http://www.weddingindustryinsider.com/www/getVendorID.php",
+				data: "username="+window.displayName,
+				dataType: 'text',
+				cache: false,
+				error: function(jqXHR, textStatus, data) {
+					alert(textStatus);
+				},
+				success: function(data)
+				{	
+					var result = data;
+					result = result.split(",");
+					window.vendorID = result[0];
+					document.getElementById("usernameSpace").innerHTML = window.user;
+				}
+			});
+		}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,40 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.inovatemarketing.vawe"
+        },
+        "cordova-plugin-googlemaps": {
+            "API_KEY_FOR_IOS": "AIzaSyDfYHAzjn7XKBSpMVTfhWW-piZT2ZkJAac",
+            "NSLOCATIONWHENINUSEUSAGEDESCRIPTION": "Show your location on the map",
+            "NSLOCATIONALWAYSUSAGEDESCRIPTION": "Trace your location on the map",
+            "PACKAGE_NAME": "com.inovatemarketing.vawe"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.inovatemarketing.vawe"
+        },
+        "cordova-plugin-keychain-touch-id": {
+            "PACKAGE_NAME": "com.inovatemarketing.vawe"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
+            "PACKAGE_NAME": "com.inovatemarketing.vawe"
+        }
+    },
+    "dependent_plugins": {
+        "com.googlemaps.ios": {
+            "PACKAGE_NAME": "com.inovatemarketing.vawe"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.inovatemarketing.vawe"
+        },
+        "cordova-plugin-app-event": {
+            "PACKAGE_NAME": "com.inovatemarketing.vawe"
+        }
+    }
+}
